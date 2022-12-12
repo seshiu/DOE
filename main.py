@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 #import generate_sample
-from mpl_toolkits.mplot3d import Axes3D
+#from mpl_toolkits.mplot3d import Axes3D
 from numpy import matlib
 
 #number_of_generating_samples = 10000  # 生成するサンプル数
@@ -200,47 +200,47 @@ if w is not None:  #dataをアップロードしたらスタート
     
 
 
-    #描画する説明変数
-    st.write('描画する説明変数')
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        X_variable = st.selectbox('説明変数1',var_list)
-    with col2:
-        Y_variable = st.selectbox('説明変数2',var_list,index=1)
-    with col3:
-        Z_variable = st.selectbox('説明変数3',var_list,index=2)
+#     #描画する説明変数
+#     st.write('描画する説明変数')
+#     col1, col2, col3 = st.columns(3)
+#     with col1:
+#         X_variable = st.selectbox('説明変数1',var_list)
+#     with col2:
+#         Y_variable = st.selectbox('説明変数2',var_list,index=1)
+#     with col3:
+#         Z_variable = st.selectbox('説明変数3',var_list,index=2)
     
-    #2次元散布図
-    plt.rcParams['font.size'] = 6
-    fig, ax = plt.subplots(1,2,figsize=(4, 1.7))
+#     #2次元散布図
+#     plt.rcParams['font.size'] = 6
+#     fig, ax = plt.subplots(1,2,figsize=(4, 1.7))
 
-    ax[0].scatter(df[X_variable],df[Y_variable],s=5, c='blue')
-    ax[0].scatter(D_selected_samples[X_variable],D_selected_samples[Y_variable],s=5, c='red')
-    ax[0].set_xlabel(X_variable,fontsize=6)
-    ax[0].set_ylabel(Y_variable,fontsize=6)
+#     ax[0].scatter(df[X_variable],df[Y_variable],s=5, c='blue')
+#     ax[0].scatter(D_selected_samples[X_variable],D_selected_samples[Y_variable],s=5, c='red')
+#     ax[0].set_xlabel(X_variable,fontsize=6)
+#     ax[0].set_ylabel(Y_variable,fontsize=6)
     
-    ax[1].scatter(df[X_variable],df[Z_variable],s=5, c='blue')
-    ax[1].scatter(D_selected_samples[X_variable],D_selected_samples[Z_variable],s=5, c='red')
-    ax[1].set_xlabel(X_variable,fontsize=6)
-    ax[1].set_ylabel(Z_variable,fontsize=6)
-    plt.tight_layout()
-    st.pyplot(fig)
+#     ax[1].scatter(df[X_variable],df[Z_variable],s=5, c='blue')
+#     ax[1].scatter(D_selected_samples[X_variable],D_selected_samples[Z_variable],s=5, c='red')
+#     ax[1].set_xlabel(X_variable,fontsize=6)
+#     ax[1].set_ylabel(Z_variable,fontsize=6)
+#     plt.tight_layout()
+#     st.pyplot(fig)
     
-    st.write('実験データ：青、実験候補：赤')
+#     st.write('実験データ：青、実験候補：赤')
     
     
-    #3次元散布図
-    plt.rcParams['font.size'] = 8
-    fig = plt.figure()
-    ax = Axes3D(fig)
-    # X,Y,Z軸にラベルを設定
-    ax.set_xlabel(X_variable)
-    ax.set_ylabel(Y_variable)
-    ax.set_zlabel(Z_variable)
+#     #3次元散布図
+#     plt.rcParams['font.size'] = 8
+#     fig = plt.figure()
+#     ax = Axes3D(fig)
+#     # X,Y,Z軸にラベルを設定
+#     ax.set_xlabel(X_variable)
+#     ax.set_ylabel(Y_variable)
+#     ax.set_zlabel(Z_variable)
         
-    ax.plot(df[X_variable],df[Y_variable],df[Z_variable],c='blue',marker="o",linestyle='None')  #実験データ
-    ax.plot(D_selected_samples[X_variable],D_selected_samples[Y_variable],D_selected_samples[Z_variable],c='red',marker="o",linestyle='None') #実験候補   
-    st.pyplot(fig)
+#     ax.plot(df[X_variable],df[Y_variable],df[Z_variable],c='blue',marker="o",linestyle='None')  #実験データ
+#     ax.plot(D_selected_samples[X_variable],D_selected_samples[Y_variable],D_selected_samples[Z_variable],c='red',marker="o",linestyle='None') #実験候補   
+#     st.pyplot(fig)
     
 
     
