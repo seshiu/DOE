@@ -1,1 +1,5 @@
-streamlit　matplotlib　numpy pandas mpl_toolkits
+streamlit
+matplotlib
+numpy
+pandas
+mpl_toolkits
