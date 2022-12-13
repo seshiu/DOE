@@ -54,6 +54,45 @@ def generating_samples(setting_of_generation,number_of_generating_samples=1000):
     return x_generated
 
 
+def generating_samples_2(setting_of_generation,number_of_generating_samples=10000):
+
+    desired_sum_of_components = 1 # 合計を指定する特徴量がある場合の、合計の値。例えば、この値を 100 にすれば、合計を 100 にできます
+    # 0 から 1 の間の一様乱数でサンプル生成
+    np.random.seed(11) # 乱数を生成するためのシードを固定
+    x_generated = np.random.rand(number_of_generating_samples, setting_of_generation.shape[1])
+    
+    # 上限・下限の設定
+    x_upper = setting_of_generation.loc['max', :]  # 上限値
+    x_lower = setting_of_generation.loc['min', :]  # 下限値
+    x_generated = x_generated * (x_upper.values - x_lower.values) + x_lower.values  # 上限値から下限値までの間に変換
+    x_generated = pd.DataFrame(x_generated, columns=setting_of_generation.columns)
+    
+    # 合計を desired_sum_of_components にする特徴量がある場合
+    x_generated_groups = pd.DataFrame()
+    if setting_of_generation.iloc[2, :].sum() != 0:
+        for group_number in range(1, int(setting_of_generation.iloc[2, :].max()) + 1):
+            variable_group = setting_of_generation.loc[:,(setting_of_generation.iloc[2, :] == group_number)].columns.tolist()
+            x_generated_group = x_generated.loc[:,variable_group]
+            #丸め込み
+            for column in variable_group:
+                x_generated_group.loc[:, column] = float(setting_of_generation.loc['kizami', column]) * np.round(x_generated_group.loc[:, column] /  float(setting_of_generation.loc['kizami', column]))
+            x_generated_group.iloc[:,-1] = desired_sum_of_components - x_generated_group.iloc[:,:-1].sum(axis=1)
+            
+            x_generated_group =  x_generated_group[x_generated_group[variable_group[-1]] <=  x_upper.loc[variable_group[-1]]]
+            x_generated_group =  x_generated_group[x_generated_group[variable_group[-1]] >=  x_lower.loc[variable_group[-1]]]
+            
+            x_generated_groups = pd.concat([x_generated_groups,x_generated_group],axis=1).dropna()
+            
+    x_generated_no_group = x_generated.loc[x_generated_groups.index, :].drop(x_generated_groups.columns.tolist(),axis=1)
+    #丸めこみ
+    for j in x_generated_no_group.columns:
+        #x_generated[:, variable_number] = np.round(x_generated[:, variable_number], int(setting_of_generation.iloc[3, variable_number]))
+        x_generated_no_group.loc[:, j] = float(setting_of_generation.loc['kizami', j]) * np.round(x_generated_no_group.loc[:, j] /  float(setting_of_generation.loc['kizami', j]))
+           
+    x_generated_final = pd.concat([x_generated_groups, x_generated_no_group],axis=1).reindex(columns=x_generated.columns)
+         
+    return x_generated_final
+
 def generating_samples_grid(setting_var_dict): 
     '''
     # settings
